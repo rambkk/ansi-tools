@@ -5,6 +5,11 @@ Application to convert ANSI art (CP437) ANSI data file to HTML web page file
 
 _The ***"IBM VGA 8x16"*** font seems to display ANSI art graphics quite well and this will be used_
 
+*works with ANSI data with fixed width (without new line characters)*
+*does not work with attributes other than 0,1,5,7,30-37,40-47 m*
+*supports 16 colors for background (8 bright colors - iCE color)*
+*inverse (7m) is experimental, and blinking (5m) is not supported*
+
 General steps in processing ANSI data:
    - check for SAUCE information and put it in SAUCE array structure
    - read ANSI data into array structure, separate into blocks by escape sequence or new line
