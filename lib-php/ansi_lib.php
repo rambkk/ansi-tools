@@ -167,7 +167,7 @@ $header=<<<EOH
 <body>
 <style>
 @font-face {
-    font-family: "IBM VGA 8x16";
+    font-family: "PxPlus IBM VGA 8x16";
     src: url( "WebPlus_IBM_VGA_8x16.woff" ) format( "woff" );
 }
 </style>
