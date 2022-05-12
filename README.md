@@ -3,7 +3,7 @@ Application to convert ANSI art (CP437) ANSI data file to HTML web page file
 
 (CP437 - Code page 437 character set)
 
-- works with ANSI data with fixed width (without new line characters)
+- works with ANSI data normal width and fixed width (with or without new line characters)
 - does not work with attributes other than 0,1,5,7,30-37,40-47 m
 - supports 16 colors for background (8 bright colors - iCE color)
 - inverse (7m) is experimental, and blinking (5m) is not supported
