@@ -70,6 +70,6 @@ You must have PHP installed
 ```php cp437_to_utf8 -f CP437.ANS > CP437_utf8.ANS```
 * for STDIN instead of file use ```-f -``` \
 ```cat CP437_1.ANS | php ansi_TO_HTML.php -f - > CP437.html ```
-* Little bit more fancy
+* Little bit more fancy \
 ```php ansi_to_html.php -f CP437.ANS --show_sauce=true --preserve_crlftab=false --preserve_escape=false --show_null_space=true > CP437.html```
  
