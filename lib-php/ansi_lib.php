@@ -159,6 +159,12 @@ if($cur['HTMLshow_sauce'] && $input['SAUCE']['SAUCEbytes']>0) {
 	$HTML_SAUCE.='</table>';
 }
 
+$runtime_option_input='Input Options:'.print_r($option,true);
+$runtime_detail=<<<EOR
+
+<!-- $runtime_option_input -->
+EOR;
+
 $header=<<<EOH
 <html>
 <head>
@@ -184,7 +190,7 @@ $footer=<<<EOF
 EOF;
 
 if($cur['HTMLheader']) { 
-	$html=$header.$html.$endhtml.$HTML_SAUCE.$footer; 
+	$html=$header.$html.$endhtml.$HTML_SAUCE.$runtime_detail.$footer; 
 } else {
 	$html= $html.$HTML_SAUCE;
 }
