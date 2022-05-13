@@ -131,10 +131,11 @@ $option=[
 	'HTML_background' =>'white'
 ];
 echo ansi_TO_HTML($input,$option);
+```
 
 # Command line options:
 
-## Paramters for ansi_to_html.php
+## Options for ansi_to_html.php
 ```bash
 php ansi_to_html.php
 
@@ -196,7 +197,7 @@ Require: -f [filename.ans |OR| '-' for STDIN]
           eg. 30, 31, 1;32, etc.
 ```
 
-## Paramters for ansi_to_json.php
+## Options for ansi_to_json.php
 ```bash
 php ansi_to_json.php
 
