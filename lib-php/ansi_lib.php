@@ -30,7 +30,7 @@ function param($option,$default=[
         'broken_pipe'   => true,
         'preserve_crlftab' => true,
         'preserve_escape' => true,
-	'HTML_show_null' => false,
+	'HTML_show_null' => "\x0",
 	'JSON_pretty_print' => true
 ]){
 
@@ -195,13 +195,13 @@ return $html;
 
 function struct_TO_html($input,$option) {
 $HTMLformat=$option['HTMLformat'];
-$HTML_show_null=$option['HTML_show_null'];
+$HTML_show_null=stripcslashes($option['HTML_show_null']);
 $HTML_use_nbsp=$option['HTML_use_nbsp'];
 
 $replace_option=false;
 $replace_option_from=[];
 $replace_option_to=[];
-if($HTML_show_null) { $replace_option_from[]=chr(0); $replace_option_to[]='&#00;';  $replace_option=true;}
+if($HTML_show_null) { $replace_option_from[]=chr(0); $replace_option_to[]=$HTML_show_null;  $replace_option=true;}
 if($HTML_use_nbsp)  { $replace_option_from[]=' ';    $replace_option_to[]='&nbsp;'; $replace_option=true;}
 
 $color=array();

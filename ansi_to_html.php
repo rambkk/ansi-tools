@@ -25,7 +25,7 @@ $cp437_to_utf8=true;
 $broken_pipe=true;
 $preserve_crlftab=true;
 $preserve_escape=true;
-$HTML_show_null=false;
+$HTML_show_null="\x0";
 $HTML_use_nbsp=false;
 $HTMLformat='<span style="color:%foreground%; background:%background%">%content%</span>';
 
@@ -66,7 +66,7 @@ if (defined('STDIN')) {
 	if(array_key_exists('format',$opt)){ $HTMLformat=$opt['format']; }
 	if(array_key_exists('preserve_crlftab',$opt)){ $preserve_crlftab=strcmp($opt['preserve_crlftab'],'false')==0?false:true; }
 	if(array_key_exists('preserve_escape',$opt)){ $preserve_escape=strcmp($opt['preserve_escape'],'false')==0?false:true; }
-	if(array_key_exists('show_null',$opt)){ $HTML_show_null=strcmp($opt['show_null'],'false')==0?false:true; }
+	if(array_key_exists('show_null',$opt)){ $HTML_show_null=$opt['show_null']; }
 	if(array_key_exists('nbsp',$opt)){ $HTML_use_nbsp=strcmp($opt['nbsp'],'false')==0?false:true; }
         if(array_key_exists('f',$opt)) {
                 $fname=$opt['f'];
@@ -103,9 +103,9 @@ if (defined('STDIN')) {
 	echo "   --preserve_crlftab=\"true |OR| false\"\n";
 	echo "          (default: true)\n";
 	echo "          keep escape character - no transcode\n";
-        echo "   --show_null=\"true |OR| false\"\n";
-	echo "          (default: false)\n";
-	echo "          show null as &#00;\n";
+        echo "   --show_null=\"character to show\"\n";
+	echo "          (default: \x0)\n";
+	echo "          eg. '\x0', '&#00;', ' ', '&nbsp;', etc.\n";
         echo "   --nbsp=\"true |OR| false\"\n";
 	echo "          (default: false)\n";
 	echo "          replace space ' ' with &nbsp;\n";

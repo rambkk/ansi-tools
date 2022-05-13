@@ -78,5 +78,5 @@ You must have PHP installed
 * for STDIN instead of file use ```-f -``` \
 ```cat CP437_1.ANS | php ansi_TO_HTML.php -f - > CP437.html ```
 * Little bit more fancy \
-```php ansi_to_html.php -f CP437.ANS --show_sauce=true --preserve_crlftab=false --preserve_escape=false --show_null=true > CP437.html```
+```php ansi_to_html.php -f CP437.ANS --show_sauce=true --preserve_crlftab=false --preserve_escape=false --show_null='&#00;' > CP437.html```
  
