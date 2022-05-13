@@ -18,9 +18,12 @@ echo ansi_TO_HTML($input);
 - supports 16 colors for background (8 bright colors - iCE color)
 - inverse (7m) is experimental, and blinking (5m) is not supported
 
-_The ***"IBM VGA 8x16"*** font seems to display ANSI art graphics quite well and this will be used_
+# Font
+The ***"IBM VGA 8x16"*** font seems to display ANSI art graphics quite well and this will be used
+This font along with other cp485 fonts is available from www.int10h.org
 
-General steps in processing ANSI data:
+
+# General steps in processing ANSI data:
    - check for SAUCE information and put it in SAUCE array structure
    - read ANSI data into array structure, separate into blocks by escape sequence or new line
    - process ANSI array and create inline data by add attribute for each block (without nesting)
@@ -36,7 +39,7 @@ General steps in processing ANSI data:
        - encode converted ANSI array into JSON format
 
 
-## cp437 TO UTF-8
+# cp437 TO UTF-8
 Convert the CP475 characters by replacing bytes with Unicode UTF-8 character codes
 
 Displaying CP437 characters directly (even under HTML format) can be problematic as it depends on computer's code page and other factors.
@@ -73,12 +76,12 @@ Special
 # Requirement
 You must have PHP installed
 
-### Library/Include files:
+## Library/Include files:
 * lib-php/ansi_lib.php
 * lib-php/ansi_SAUCE_lib.php
 * lib-php/cp437_utf8.php
 
-### Examples - command-line (filename.ANS uses cp437) 
+## Examples - command-line (filename.ANS uses cp437) 
 * Generate HTML from CP437.ANS without showing SAUCE data\
 ```php ansi_to_html.php -f CP437.ANS --show_sauce=false > CP437.html```
 * Generate JSON outout from CP437.ANS \
@@ -90,9 +93,8 @@ You must have PHP installed
 * Little bit more fancy \
 ```php ansi_to_html.php -f CP437.ANS --show_sauce=true --preserve_crlftab=false --preserve_escape=false --show_null=' ' > CP437.html```
  
-# Options
+# Options with example
 Here is the list of default options:
-(for command line options just run the program without any parameter ie. ```php ansi_to_html.php```)
 ```php
 <?php
 $option=[
@@ -130,5 +132,109 @@ $option=[
 ];
 echo ansi_TO_HTML($input,$option);
 
-?>
+# Command line options:
+
+## Paramters for ansi_to_html.php
+```bash
+php ansi_to_html.php
+
+Require: -f [filename.ans |OR| '-' for STDIN]
+
+ Option:
+   --show_sauce="true |OR| false"
+          (default: true)
+          show SAUCE meta data
+   --format='HTML format of output'
+         default: '<span style="color:%foreground%; background:%background%">%content%</span>'
+   --header="true |OR| false"
+          (default: true)
+          output html headers, etc.
+   --background="html color/code"
+          (default: "black")
+          for html display area background
+          eg. 'black', 'red', '#B8B800', etc.
+   --background="html color/code"
+          (default: "white")
+          for html display area foreground
+          eg. 'white', 'red', '#B8B800', etc.
+   --cps437_to_utf8="true |OR| false"
+          (default: true)
+          transcode code page 437 to Unicode utf8 format
+   --broken_pipe="true |OR| false"
+          (default: true)
+          transcode '|' to classic broken pipe
+   --preserve_crlftab="true |OR| false"
+          (default: true)
+          keep carriage return,linefeed,tab - no transcode
+   --preserve_escape="true |OR| false"
+          (default: true)
+          keep escape character - no transcode
+   --show_null="character to show"
+          (default: ' ')
+          eg. '^@', '&#00;', ' ', '&nbsp;', etc.
+   --nbsp="true |OR| false"
+          (default: false)
+          replace space ' ' with &nbsp;
+   --use5m=="auto |OR| true |OR| false" default: auto)
+          use bright 5m background (iCE colors)
+   --use7m=="true |OR| false" default: true)
+          do color inverse (inline 7m is experimental)
+   --width="auto |OR| none |OR|i width in number"
+          (default: auto)
+          add CRLF at certain width
+          auto   - use width from SAUCE if available, or none
+          number - use this width
+          none   - do not add any CRLF
+          eg. --width="auto", --width=108, --width=21, etc.
+   --bg="color code"
+          (default: "40" - black)
+          inline attribute "color code" as default ANSI background
+          eg. 40, 41, 5;42, etc.
+   --fg="color code"
+          (default: "37" - grey)
+          inline attribute "color code" as default ANSI foreground
+          eg. 30, 31, 1;32, etc.
 ```
+
+## Paramters for ansi_to_json.php
+```bash
+php ansi_to_json.php
+
+Require: -f [filename.ans |OR| '-' for STDIN]
+
+ Option:
+   --pretty_print="true |OR| false" (default: true)
+          output JSON data in pretty format
+   --cps437_to_utf8="true |OR| false" (default: true)
+          transcode code page 437 to Unicode utf8 format
+   --broken_pipe="true |OR| false"
+          (default: true)
+          transcode '|' to classic broken pipe
+   --preserve_crlftab="true |OR| false"
+          (default: true)
+          keep carriage return,linefeed,tab - no transcode
+   --use5m=="auto |OR| true |OR| false" default: auto)
+                use bright 5m background (iCE colors)
+   --use7m=="true |OR| false" default: true)
+          do color inverse (inline 7m is experimental)
+   --width="auto |OR| none |OR| width in number"
+          (default: auto)
+          add CRLF at certain width
+          auto   - use width from SAUCE if available, or none
+          number - use this width
+          none   - do not add any CRLF
+          eg. --width="auto", --width=108, --width=21, etc.
+   --bg="color code"
+          (default: "40" - black)
+          inline attribute "color code" as default ANSI background
+          eg. 40, 41, 5;42, etc.
+   --fg="color code"
+          (default: "37" - grey)
+          inline attribute "color code" as default ANSI foreground
+          eg. 30, 31, 1;32, etc.
+```
+
+
+
+_(c) Ram Narula <ram@pluslab.com> github @rambkk_
+
