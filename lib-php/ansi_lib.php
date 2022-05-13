@@ -14,14 +14,15 @@ COPY;
 
 // DEFAULT OPTIONS
 function param($option,$default=[
-        'HTMLformat'        => '<span style="color:%foreground%; background:%background%">%content%</span>',
-        'HTMLshow_sauce'    => true,
         'SAUCEhide'     => true,
-        'width'         => 'auto',
-        'HTMLheader'    => true,
-        'HTMLbackground'    => 'black',
-        'HTMLforeground'    => 'white',
+        'HTML_format'        => '<span style="color:%foreground%; background:%background%">%content%</span>',
+        'HTML_show_sauce'    => true,
+        'HTML_header'    => true,
+        'HTML_background'    => 'black',
+        'HTML_foreground'    => 'white',
 	'HTML_use_nbsp' => false,
+	'HTML_show_null' => ' ',
+        'width'         => 'auto',
         'use5m'         => true,
         'use7m'         => true,
         'ANSIfg'        => '37',
@@ -30,7 +31,6 @@ function param($option,$default=[
         'broken_pipe'   => true,
         'preserve_crlftab' => true,
         'preserve_escape' => true,
-	'HTML_show_null' => "\x0",
 	'JSON_pretty_print' => true
 ]){
 
@@ -137,14 +137,14 @@ $cur=param($option);
 $input=ansi_INIT($input,$cur);
 
 
-$HTMLbackground=$cur['HTMLbackground'];
-$HTMLforeground=$cur['HTMLforeground'];
+$HTML_background=$cur['HTML_background'];
+$HTML_foreground=$cur['HTML_foreground'];
 $width=$input['STATUS']['width'];
 
 $prewidth=$width>0?$width.'ch':'auto';
 $html=struct_TO_html($input,$cur);
 $HTML_SAUCE='';
-if($cur['HTMLshow_sauce'] && $input['SAUCE']['SAUCEbytes']>0) {
+if($cur['HTML_show_sauce'] && $input['SAUCE']['SAUCEbytes']>0) {
 	$HTML_SAUCE='<table border="1" style="border-collapse:collapse;">';
 	foreach($input['SAUCE']['data'] as $key=>$value) {
 		if(strcmp($key,"COMNT")!=0) { 
@@ -177,7 +177,7 @@ $header=<<<EOH
     src: url( "font/WebPlus_IBM_VGA_8x16.woff" ) format( "woff" );
 }
 </style>
-<pre style='font-family: "IBM VGA 8x16", monospace; line-height: 1em; white-space:pre-wrap; line-break: anywhere; width: {$prewidth}; background: {$HTMLbackground}; color: {$HTMLforeground}'>
+<pre style='font-family: "IBM VGA 8x16", monospace; line-height: 1em; white-space:pre-wrap; line-break: anywhere; width: {$prewidth}; background: {$HTML_background}; color: {$HTML_foreground}'>
 
 EOH;
 
@@ -189,7 +189,7 @@ $footer=<<<EOF
 </body></html>
 EOF;
 
-if($cur['HTMLheader']) { 
+if($cur['HTML_header']) { 
 	$html=$header.$html.$endhtml.$HTML_SAUCE.$runtime_detail.$footer; 
 } else {
 	$html= $html.$HTML_SAUCE;
@@ -200,7 +200,7 @@ return $html;
  
 
 function struct_TO_html($input,$option) {
-$HTMLformat=$option['HTMLformat'];
+$HTML_format=$option['HTML_format'];
 $HTML_show_null=stripcslashes($option['HTML_show_null']);
 $HTML_use_nbsp=$option['HTML_use_nbsp'];
 
@@ -253,7 +253,7 @@ foreach ($input['ANSIDATA'] as $block) {
 			$htmlbg=$color[intval(preg_replace("/5;(4[0-9])/",'1'.'${1}',$block['background']))];
 			$replace_from=['%foreground%',	'%background%',	'%content%'];
 			$replace_to=  [$htmlfg,		$htmlbg,	$block['content']];
-			$html.=str_replace($replace_from,$replace_to,$HTMLformat);
+			$html.=str_replace($replace_from,$replace_to,$HTML_format);
 		} else {
 			$html.=$block['content'];
 		}

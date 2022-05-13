@@ -12,12 +12,15 @@ $INFO=<<<COPY
 COPY;
 
 // DEFAULT OPTIONS 
-$HTMLshow_sauce=true;
+$HTML_show_sauce=true;
+$HTML_background='black';
+$HTML_foreground='white';
+$HTML_header=true;
+$HTML_show_null=' ';
+$HTML_use_nbsp=false;
+$HTML_format='<span style="color:%foreground%; background:%background%">%content%</span>';
 $ANSIbg=40;
 $ANSIfg=37;
-$background='black';
-$foreground='white';
-$header=true;
 $width='auto';
 $use5m='auto';
 $use7m=true;
@@ -25,9 +28,6 @@ $cp437_to_utf8=true;
 $broken_pipe=true;
 $preserve_crlftab=true;
 $preserve_escape=true;
-$HTML_show_null="\x0";
-$HTML_use_nbsp=false;
-$HTMLformat='<span style="color:%foreground%; background:%background%">%content%</span>';
 
 require_once("lib-php/ansi_lib.php");
 
@@ -52,18 +52,18 @@ if (defined('STDIN')) {
 		"show_sauce::",  // Option
 	);
         $opt = getopt("f:",$longopts,$rest_index);
-        if(array_key_exists('show_sauce',$opt)) {$HTMLshow_sauce=strcmp($opt['show_sauce'],'false')==0?false:true;}
+        if(array_key_exists('show_sauce',$opt)) {$HTML_show_sauce=strcmp($opt['show_sauce'],'false')==0?false:true;}
 	if(array_key_exists('width',$opt)) { $width=$opt['width']; }
         if(array_key_exists('bg',$opt))		{$ANSIbg=$opt['bg'];}
         if(array_key_exists('fg',$opt))		{$ANSIfg=$opt['fg'];}
         if(array_key_exists('use5m',$opt)){$use5m=$opt['use5m'];}
         if(array_key_exists('use7m',$opt)){$use7m=strcmp($opt['use7m'],'false')==0?false:true;}
-	if(array_key_exists('background',$opt))	{$background=$opt['background'];}
-	if(array_key_exists('foreground',$opt))	{$foreground=$opt['foreground'];}
+	if(array_key_exists('background',$opt))	{$HTML_background=$opt['background'];}
+	if(array_key_exists('foreground',$opt))	{$HTML_foreground=$opt['foreground'];}
 	if(array_key_exists('cp437_to_utf8',$opt)){ $cp437_to_utf8=strcmp($opt['cp437_to_utf8'],'false')==0?false:true; }
 	if(array_key_exists('broken_pipe',$opt)){ $broken_pipe=strcmp($opt['broken_pipe'],'false')==0?false:true; }
-	if(array_key_exists('header',$opt)){ $header=strcmp($opt['header'],'false')==0?false:true; }
-	if(array_key_exists('format',$opt)){ $HTMLformat=$opt['format']; }
+	if(array_key_exists('header',$opt)){ $HTML_header=strcmp($opt['header'],'false')==0?false:true; }
+	if(array_key_exists('format',$opt)){ $HTML_format=$opt['format']; }
 	if(array_key_exists('preserve_crlftab',$opt)){ $preserve_crlftab=strcmp($opt['preserve_crlftab'],'false')==0?false:true; }
 	if(array_key_exists('preserve_escape',$opt)){ $preserve_escape=strcmp($opt['preserve_escape'],'false')==0?false:true; }
 	if(array_key_exists('show_null',$opt)){ $HTML_show_null=$opt['show_null']; }
@@ -100,11 +100,11 @@ if (defined('STDIN')) {
 	echo "   --preserve_crlftab=\"true |OR| false\"\n";
 	echo "          (default: true)\n";
 	echo "          keep carriage return,linefeed,tab - no transcode\n";
-	echo "   --preserve_crlftab=\"true |OR| false\"\n";
+	echo "   --preserve_escape=\"true |OR| false\"\n";
 	echo "          (default: true)\n";
 	echo "          keep escape character - no transcode\n";
         echo "   --show_null=\"character to show\"\n";
-	echo "          (default: \x0)\n";
+	echo "          (default: ' ')\n";
 	echo "          eg. '\x0', '&#00;', ' ', '&nbsp;', etc.\n";
         echo "   --nbsp=\"true |OR| false\"\n";
 	echo "          (default: false)\n";
@@ -141,20 +141,20 @@ $input=$fname=='-'?stream_get_contents(STDIN):file_get_contents($fname);
 ////BEGIN////
 
 $option=[	
-	'HTMLformat'	=> $HTMLformat,
-	'HTMLshow_sauce'	=> $HTMLshow_sauce,
+	'HTML_format'		=> $HTML_format,
+	'HTML_show_sauce'	=> $HTML_show_sauce,
+	'HTML_background'	=> $HTML_background,
+	'HTML_foreground'	=> $HTML_foreground,
+	'HTML_header'		=> $HTML_header,
+	'HTML_use_nbsp'		=> $HTML_use_nbsp,
+	'HTML_show_null'	=> $HTML_show_null,
 	'width'		=> $width, // ie. 'auto', 'none', or a number 108,21,80, etc.
 	'use5m'		=> $use5m,
 	'use7m'		=> $use7m,
 	'ANSIfg'	=> $ANSIfg,
 	'ANSIbg'	=> $ANSIbg,
-	'HTMLbackground'	=> $background,
-	'HTMLforeground'	=> $foreground,
-	'HTMLheader'	=> $header,
-	'HTML_use_nbsp'	=> $HTML_use_nbsp,
-	'HTML_show_null'	=> $HTML_show_null,
-	'cp437_to_utf8' => $cp437_to_utf8,
-	'broken_pipe'	=> $broken_pipe,
+	'cp437_to_utf8'		=> $cp437_to_utf8,
+	'broken_pipe'		=> $broken_pipe,
 	'preserve_crlftab'	=> $preserve_crlftab,
 	'preserve_escape'	=> $preserve_escape,
 ];
