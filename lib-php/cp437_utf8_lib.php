@@ -299,9 +299,6 @@ if(!$preserve_crlftab) {
 if(!$preserve_escape) {
 	$utf8[27]="\u{2190}";
 }
-if($show_null_space) {
-	$utf8[0]="\u{20}";
-}
 
 $bytes=str_split($text);
 $out='';
