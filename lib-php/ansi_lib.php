@@ -168,7 +168,7 @@ $header=<<<EOH
 <style>
 @font-face {
     font-family: "IBM VGA 8x16";
-    src: url( "WebPlus_IBM_VGA_8x16.woff" ) format( "woff" );
+    src: url( "font/WebPlus_IBM_VGA_8x16.woff" ) format( "woff" );
 }
 </style>
 <pre style='font-family: "IBM VGA 8x16", monospace; line-height: 1em; white-space:pre-wrap; line-break: anywhere; width: {$prewidth}; background: {$HTMLbackground}; color: {$HTMLforeground}'>
