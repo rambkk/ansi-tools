@@ -55,7 +55,7 @@ Few characters should 'generally' be preserved from trancoding:
 
 Special
   - classic 'broken-pipe' ¦ is used instead of 'pipe' | (or use the non broken pipe)
-  - HTML option: render null character (\x00) as ``&#00;`` (might show &#00;)
+  - HTML option: render null character (\x0) as specified character eg. ``&#00;`` (might show &#00;)
   - HTML option: render space character ' ' as ``&nbsp;``
 
 
