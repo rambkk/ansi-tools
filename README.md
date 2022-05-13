@@ -3,7 +3,7 @@ Application to convert ANSI art (CP437) ANSI data file to HTML web page file
 
 (CP437 - Code page 437 character set)
 
-Simple example (to remove SAUCE info check the ansi_to_html_simple.php):
+Simple example (to remove SAUCE info check the ansi_to_html_simple.php, options below):
 ```php
 <?php
 require_once("lib-php/ansi_lib.php");
@@ -90,3 +90,45 @@ You must have PHP installed
 * Little bit more fancy \
 ```php ansi_to_html.php -f CP437.ANS --show_sauce=true --preserve_crlftab=false --preserve_escape=false --show_null=' ' > CP437.html```
  
+# Options
+Here is the list of default options:
+(for command line options just run the program without any parameter ie. ```php ansi_to_html.php```)
+```php
+<?php
+$option=[
+        'SAUCEhide'     => true,
+        'HTML_format'        => '<span style="color:%foreground%; background:%background%">%content%</span>',
+        'HTML_show_sauce'    => true,
+        'HTML_header'	     => true,
+        'HTML_background'    => 'black',
+        'HTML_foreground'    => 'white',
+        'HTML_use_nbsp'      => false,
+        'HTML_show_null'     => ' ',
+        'width'         => 'auto',
+        'use5m'         => true,
+        'use7m'         => true,
+        'ANSIfg'        => '37',
+        'ANSIbg'        => '40',
+        'cp437_to_utf8' => true,
+        'broken_pipe'   => true,
+        'preserve_crlftab'  => true,
+        'preserve_escape'   => true,
+        'JSON_pretty_print' => true
+];
+```
+The option could be used like in this example:
+```php
+<?php
+require_once("lib-php/ansi_lib.php");
+
+$input=file_get_contents('CP437.ANS');
+
+$option=[
+	'HTML_show_sauce' => false,
+	'HTML_foreground' =>'black',
+	'HTML_background' =>'white'
+];
+echo ansi_TO_HTML($input,$option);
+
+?>
+```
