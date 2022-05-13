@@ -21,6 +21,7 @@ function param($option,$default=[
         'HTMLheader'    => true,
         'HTMLbackground'    => 'black',
         'HTMLforeground'    => 'white',
+	'HTML_use_nbsp' => false,
         'use5m'         => true,
         'use7m'         => true,
         'ANSIfg'        => '37',
@@ -29,7 +30,7 @@ function param($option,$default=[
         'broken_pipe'   => true,
         'preserve_crlftab' => true,
         'preserve_escape' => true,
-	'show_null_space' => false,
+	'HTML_show_null' => false,
 	'JSON_pretty_print' => true
 ]){
 
@@ -56,7 +57,6 @@ $cp437_to_utf8_option=[
         'preserve_crlftab'	=> $cur['preserve_crlftab'],
         'preserve_escape'	=> $cur['preserve_escape'],
         'broken_pipe'           => $cur['broken_pipe'],
-        'show_null_space'	=> $cur['show_null_space']
 ];
 
 
@@ -142,7 +142,7 @@ $HTMLforeground=$cur['HTMLforeground'];
 $width=$input['STATUS']['width'];
 
 $prewidth=$width>0?$width.'ch':'auto';
-$html=struct_TO_html($input,$cur['HTMLformat']);
+$html=struct_TO_html($input,$cur);
 $HTML_SAUCE='';
 if($cur['HTMLshow_sauce'] && $input['SAUCE']['SAUCEbytes']>0) {
 	$HTML_SAUCE='<table border="1" style="border-collapse:collapse;">';
@@ -193,7 +193,16 @@ return $html;
 }
  
 
-function struct_TO_html($input,$HTMLformat='<span style="color:%foreground%; background:%background%">%content%</span>') {
+function struct_TO_html($input,$option) {
+$HTMLformat=$option['HTMLformat'];
+$HTML_show_null=$option['HTML_show_null'];
+$HTML_use_nbsp=$option['HTML_use_nbsp'];
+
+$replace_option=false;
+$replace_option_from=[];
+$replace_option_to=[];
+if($HTML_show_null) { $replace_option_from[]=chr(0); $replace_option_to[]='&#00;';  $replace_option=true;}
+if($HTML_use_nbsp)  { $replace_option_from[]=' ';    $replace_option_to[]='&nbsp;'; $replace_option=true;}
 
 $color=array();
 $color[30]="black";
@@ -232,14 +241,13 @@ $color[147]="white";
 $html='';
 foreach ($input['ANSIDATA'] as $block) {
 	if(array_key_exists('content',$block)) {
+		if($replace_option) {$block['content']=str_replace($replace_option_from,$replace_option_to,$block['content']);}
 		if(array_key_exists('foreground',$block) && array_key_exists('background',$block)) {
 			$htmlfg=$color[intval(preg_replace("/1;(3[0-9])/",'1'.'${1}',$block['foreground']))];
 			$htmlbg=$color[intval(preg_replace("/5;(4[0-9])/",'1'.'${1}',$block['background']))];
-			$html.=str_replace(
-				['%foreground%',	'%background%', 		'%content%'],
-				[$htmlfg,		$htmlbg,  			$block['content']],
-				$HTMLformat
-			);
+			$replace_from=['%foreground%',	'%background%',	'%content%'];
+			$replace_to=  [$htmlfg,		$htmlbg,	$block['content']];
+			$html.=str_replace($replace_from,$replace_to,$HTMLformat);
 		} else {
 			$html.=$block['content'];
 		}

@@ -14,7 +14,6 @@ $preserve_escape=true;
 $preserve_crlftab=true;
 $suppress_newline=false;
 $broken_pipe=true;
-$show_null_space=false;
 
 require_once("lib-php/cp437_utf8_lib.php");
 
@@ -30,7 +29,6 @@ if (defined('STDIN')) {
         if(array_key_exists('broken_pipe',$opt)){ $broken_pipe=strcmp($opt['broken_pipe'],'false')==0?false:true; }
         if(array_key_exists('preserve_crlftab',$opt)){ $preserve_crlftab=strcmp($opt['preserve_crlftab'],'false')==0?false:true; }
         if(array_key_exists('preserve_escape',$opt)){ $preserve_escape=strcmp($opt['preserve_crlftab'],'false')==0?false:true; }
-        if(array_key_exists('show_null_space',$opt)){ $show_null_space=strcmp($opt['show_null_space'],'false')==0?false:true; }
 	if(array_key_exists('n',$opt)) {$suppress_newline=true;}
 	if(array_key_exists('f',$opt)) {
 		$fname=$opt['f'];
@@ -47,9 +45,6 @@ if (defined('STDIN')) {
         echo "   --preserve_escape=\"true |OR| false\"\n";
         echo "          (default: true)\n";
         echo "          keep escape sequence - no transcode\n";
-        echo "   --show_null_space=\"true |OR| false\"\n";
-        echo "          (default: false)\n";
-        echo "          show null as space\n";
 	echo "\n";
 	echo "(c) Ram Narula <ram@pluslab.com> github @rambkk\n";
 	echo "\n";
@@ -63,7 +58,6 @@ $option=[
 	'preserve_escape'	=> $preserve_escape,
 	'preserve_crlftab'	=> $preserve_crlftab,
 	'broken_pipe'		=> $broken_pipe,
-	'show_null_space'	=> $show_null_space
 ];
 
 $line=cp437_TO_UTF8($input,$option);

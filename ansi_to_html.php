@@ -25,7 +25,8 @@ $cp437_to_utf8=true;
 $broken_pipe=true;
 $preserve_crlftab=true;
 $preserve_escape=true;
-$show_null_space=false;
+$HTML_show_null=false;
+$HTML_use_nbsp=false;
 $HTMLformat='<span style="color:%foreground%; background:%background%">%content%</span>';
 
 require_once("lib-php/ansi_lib.php");
@@ -46,7 +47,8 @@ if (defined('STDIN')) {
 		"format::",  // Option
 		"preserve_crlftab::",  // Option
 		"preserve_escape::",  // Option
-		"show_null_space::",  // Option
+		"show_null::",  // Option
+		"nbsp::",  // Option
 		"show_sauce::",  // Option
 	);
         $opt = getopt("f:",$longopts,$rest_index);
@@ -64,7 +66,8 @@ if (defined('STDIN')) {
 	if(array_key_exists('format',$opt)){ $HTMLformat=$opt['format']; }
 	if(array_key_exists('preserve_crlftab',$opt)){ $preserve_crlftab=strcmp($opt['preserve_crlftab'],'false')==0?false:true; }
 	if(array_key_exists('preserve_escape',$opt)){ $preserve_escape=strcmp($opt['preserve_escape'],'false')==0?false:true; }
-	if(array_key_exists('show_null_space',$opt)){ $show_null_space=strcmp($opt['show_null_space'],'false')==0?false:true; }
+	if(array_key_exists('show_null',$opt)){ $HTML_show_null=strcmp($opt['show_null'],'false')==0?false:true; }
+	if(array_key_exists('nbsp',$opt)){ $HTML_use_nbsp=strcmp($opt['nbsp'],'false')==0?false:true; }
         if(array_key_exists('f',$opt)) {
                 $fname=$opt['f'];
         } else {
@@ -100,9 +103,12 @@ if (defined('STDIN')) {
 	echo "   --preserve_crlftab=\"true |OR| false\"\n";
 	echo "          (default: true)\n";
 	echo "          keep escape character - no transcode\n";
-        echo "   --show_null_space=\"true |OR| false\"\n";
+        echo "   --show_null=\"true |OR| false\"\n";
 	echo "          (default: false)\n";
-	echo "          show null as space\n";
+	echo "          show null as &#00;\n";
+        echo "   --nbsp=\"true |OR| false\"\n";
+	echo "          (default: false)\n";
+	echo "          replace space ' ' with &nbsp;\n";
         echo "   --use5m==\"auto |OR| true |OR| false\" default: auto)\n";
         echo "          use bright 5m background (iCE colors)\n";
         echo "   --use7m==\"true |OR| false\" default: true)\n";
@@ -145,11 +151,12 @@ $option=[
 	'HTMLbackground'	=> $background,
 	'HTMLforeground'	=> $foreground,
 	'HTMLheader'	=> $header,
+	'HTML_use_nbsp'	=> $HTML_use_nbsp,
+	'HTML_show_null'	=> $HTML_show_null,
 	'cp437_to_utf8' => $cp437_to_utf8,
 	'broken_pipe'	=> $broken_pipe,
 	'preserve_crlftab'	=> $preserve_crlftab,
 	'preserve_escape'	=> $preserve_escape,
-	'show_null_space'	=> $show_null_space,
 ];
 
 echo ansi_TO_HTML($input,$option);

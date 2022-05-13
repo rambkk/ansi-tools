@@ -47,7 +47,7 @@ The process of conversion is quite simple by matching each byte with correspondi
 
 ### Note:
 Few characters should 'generally' be preserved from trancoding:
-  * \*(There are option to convert these to Unicode UTF-8 by using special parameters)
+  * \*(There are options to force convert these to Unicode UTF8 symbols)
   - Carriage Return (0x0A)
   - Line feed (0x0D)
   - Horizontal Tab (0x09) 
@@ -55,7 +55,9 @@ Few characters should 'generally' be preserved from trancoding:
 
 Special
   - classic 'broken-pipe' ¦ is used instead of 'pipe' | (or use the non broken pipe)
-  - render null character (\x00) as space (or show null which should not take up any space)
+  - HTML option: render null character (\x00) as &#00;
+  - HTML option: render space character ' ' as &nbsp;
+
 
 
 # Requirement
