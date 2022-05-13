@@ -3,6 +3,16 @@ Application to convert ANSI art (CP437) ANSI data file to HTML web page file
 
 (CP437 - Code page 437 character set)
 
+Simple example (to remove SAUCE info check the ansi_to_html_simple.php):
+```php
+<?php
+require_once("lib-php/ansi_lib.php");
+
+$input=file_get_contents('CP437.ANS');
+echo ansi_TO_HTML($input);
+?>
+```
+
 - works with ANSI data normal width and fixed width (with or without new line characters)
 - does not work with attributes other than 0,1,5,7,30-37,40-47 m
 - supports 16 colors for background (8 bright colors - iCE color)
@@ -55,7 +65,7 @@ Few characters should 'generally' be preserved from trancoding:
 
 Special
   - classic 'broken-pipe' ¦ is used instead of 'pipe' | (or use the non broken pipe)
-  - HTML option: render null character (\x0) as specified character eg. ``&#00;`` (might show &#00;)
+  - HTML option: render null character (\x0) as specified character eg. ``' ' or '&#00;' or '&nbsp;' ...``
   - HTML option: render space character ' ' as ``&nbsp;``
 
 
@@ -78,5 +88,5 @@ You must have PHP installed
 * for STDIN instead of file use ```-f -``` \
 ```cat CP437_1.ANS | php ansi_TO_HTML.php -f - > CP437.html ```
 * Little bit more fancy \
-```php ansi_to_html.php -f CP437.ANS --show_sauce=true --preserve_crlftab=false --preserve_escape=false --show_null='&#00;' > CP437.html```
+```php ansi_to_html.php -f CP437.ANS --show_sauce=true --preserve_crlftab=false --preserve_escape=false --show_null=' ' > CP437.html```
  
