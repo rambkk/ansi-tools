@@ -66,12 +66,15 @@ The process of conversion is quite simple by matching each byte with correspondi
 
 ### Note:
 Few characters should 'generally' be preserved from trancoding:
-  * \*(There are options to force convert these to Unicode utf8 symbols)
-  * \*( --preserve_crlftab='false' --preserve_escape='false')
   - Carriage Return (0x0A)
   - Line feed (0x0D)
   - Horizontal Tab (0x09) 
   - Escape character (0x1B - can transcoded if not part of escape sequence)
+  * To force transcode to Unicode utf8 symbols
+    ```bash
+    --preserve_crlftab='false' --preserve_escape='false'
+    ```
+
 
 Special
   - classic 'broken-pipe' ¦ is used instead of 'pipe' | (or use --broken_pipe='false' )
