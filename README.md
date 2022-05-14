@@ -61,7 +61,7 @@ The process of conversion is quite simple by matching each byte with correspondi
 
 ### Note:
 Few characters should 'generally' be preserved from trancoding:
-  * \*(There are options to force convert these to Unicode UTF8 symbols)
+  * \*(There are options to force convert these to Unicode utf8 symbols)
   - Carriage Return (0x0A)
   - Line feed (0x0D)
   - Horizontal Tab (0x09) 
@@ -87,7 +87,7 @@ You must have PHP installed
 ```php ansi_to_html.php -f CP437.ANS --show_sauce=false > CP437.html```
 * Generate JSON outout from CP437.ANS \
 ```php ansi_to_json.php -f CP437.ANS > CP437.json```
-* Generate Unicode UTF8 from  CP437.ANS\
+* Generate Unicode utf8 from  CP437.ANS\
 ```php cp437_to_utf8 -f CP437.ANS > CP437_utf8.ANS```
 * for STDIN instead of file use ```-f -``` \
 ```cat CP437_1.ANS | php ansi_TO_HTML.php -f - > CP437.html ```
@@ -147,54 +147,45 @@ Require: -f [filename.ans |OR| '-' for STDIN]
           show SAUCE meta data
    --format='HTML format of output'
          default: '<span style="color:%foreground%; background:%background%">%content%</span>'
-   --header="true |OR| false"
-          (default: true)
+   --header='true |OR| false (default: true)
           output html headers, etc.
-   --background="html color/code"
-          (default: "black")
+   --background='html color/code' (default: "black")
           for html display area background
-          eg. 'black', 'red', '#B8B800', etc.
-   --background="html color/code"
-          (default: "white")
+   --foreground='html color/code' (default: "white")
           for html display area foreground
           eg. 'white', 'red', '#B8B800', etc.
-   --cps437_to_utf8="true |OR| false"
-          (default: true)
-          transcode code page 437 to Unicode utf8 format
-   --broken_pipe="true |OR| false"
-          (default: true)
-          transcode '|' to classic broken pipe
-   --preserve_crlftab="true |OR| false"
-          (default: true)
-          keep carriage return,linefeed,tab - no transcode
-   --preserve_escape="true |OR| false"
-          (default: true)
-          keep escape character - no transcode
-   --show_null="character to show"
-          (default: ' ')
-          eg. '^@', '&#00;', ' ', '&nbsp;', etc.
-   --nbsp="true |OR| false"
-          (default: false)
+   --nbsp='true |OR| false' (default: false)
           replace space ' ' with &nbsp;
-   --use5m=="auto |OR| true |OR| false" default: auto)
+   --br='true |OR| false' (default: false)
+          use <br /> tag for new line
+   --show_null='character to show' (default: ' ')
+          eg. '\x0', '&#00;', ' ', '&nbsp;', etc.
+   --cps437_to_utf8='true |OR| false' (default: true)
+          transcode code page 437 to Unicode utf8 format
+   --broken_pipe='true |OR| false' (default: true)
+          transcode '|' to classic broken pipe
+   --preserve_crlftab='true |OR| false' (default: true)
+          keep carriage return,linefeed,tab - no transcode
+   --preserve_escape='true |OR| false' (default: true)
+          keep escape character - no transcode
+   --use5m=='auto |OR| true |OR| false' default: auto)
           use bright 5m background (iCE colors)
-   --use7m=="true |OR| false" default: true)
+   --use7m=='true |OR| false' default: true)
           do color inverse (inline 7m is experimental)
-   --width="auto |OR| none |OR|i width in number"
+   --width='auto |OR| none |OR| width in number'
           (default: auto)
           add CRLF at certain width
-          auto   - use width from SAUCE if available, or none
-          number - use this width
-          none   - do not add any CRLF
-          eg. --width="auto", --width=108, --width=21, etc.
-   --bg="color code"
-          (default: "40" - black)
-          inline attribute "color code" as default ANSI background
+          'auto' - use SAUCE if available, or none
+          'a number' - use this width
+          'none'     - do not add any CRLF
+          eg. --width='auto', --width='108', --width='21', etc.
+   --bg='color code' (default: '40' - black)
+          use this as default ANSI background
           eg. 40, 41, 5;42, etc.
-   --fg="color code"
-          (default: "37" - grey)
-          inline attribute "color code" as default ANSI foreground
+   --fg='color code' (default: '37' - grey)
+          use this as default ANSI foreground
           eg. 30, 31, 1;32, etc.
+
 ```
 
 ## Options for ansi_to_json.php
@@ -206,32 +197,30 @@ Require: -f [filename.ans |OR| '-' for STDIN]
  Option:
    --pretty_print="true |OR| false" (default: true)
           output JSON data in pretty format
-   --cps437_to_utf8="true |OR| false" (default: true)
+   --cps437_to_utf8='true |OR| false' (default: true)
           transcode code page 437 to Unicode utf8 format
-   --broken_pipe="true |OR| false"
-          (default: true)
+   --broken_pipe='true |OR| false' (default: true)
           transcode '|' to classic broken pipe
-   --preserve_crlftab="true |OR| false"
-          (default: true)
+   --preserve_crlftab='true |OR| false' (default: true)
           keep carriage return,linefeed,tab - no transcode
-   --use5m=="auto |OR| true |OR| false" default: auto)
-                use bright 5m background (iCE colors)
-   --use7m=="true |OR| false" default: true)
+   --preserve_escape='true |OR| false' (default: true)
+          keep escape character - no transcode
+   --use5m=='auto |OR| true |OR| false' default: auto)
+          use bright 5m background (iCE colors)
+   --use7m=='true |OR| false' default: true)
           do color inverse (inline 7m is experimental)
-   --width="auto |OR| none |OR| width in number"
+   --width='auto |OR| none |OR| width in number'
           (default: auto)
           add CRLF at certain width
-          auto   - use width from SAUCE if available, or none
-          number - use this width
-          none   - do not add any CRLF
-          eg. --width="auto", --width=108, --width=21, etc.
-   --bg="color code"
-          (default: "40" - black)
-          inline attribute "color code" as default ANSI background
+          'auto' - use SAUCE if available, or none
+          'a number' - use this width
+          'none'     - do not add any CRLF
+          eg. --width='auto', --width='108', --width='none', etc.
+   --bg='color code' (default: '40' - black)
+          use this as default ANSI background
           eg. 40, 41, 5;42, etc.
-   --fg="color code"
-          (default: "37" - grey)
-          inline attribute "color code" as default ANSI foreground
+   --fg='color code' (default: '37' - grey)
+          use this as default ANSI foreground
           eg. 30, 31, 1;32, etc.
 ```
 

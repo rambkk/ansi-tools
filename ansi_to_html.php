@@ -18,6 +18,7 @@ $HTML_foreground='white';
 $HTML_header=true;
 $HTML_show_null=' ';
 $HTML_use_nbsp=false;
+$HTML_use_br=false;
 $HTML_format='<span style="color:%foreground%; background:%background%">%content%</span>';
 $ANSIbg=40;
 $ANSIfg=37;
@@ -41,15 +42,16 @@ if (defined('STDIN')) {
 		"foreground::",
 		"width::",
 		"broken_pipe::",
-		"use5m::",    // Option
-		"use7m::",    // Option
-		"header::",  // Option
-		"format::",  // Option
-		"preserve_crlftab::",  // Option
-		"preserve_escape::",  // Option
-		"show_null::",  // Option
-		"nbsp::",  // Option
-		"show_sauce::",  // Option
+		"use5m::",
+		"use7m::",
+		"header::",
+		"format::",
+		"preserve_crlftab::",
+		"preserve_escape::",
+		"show_null::",
+		"nbsp::",
+		"br::",
+		"show_sauce::",
 	);
         $opt = getopt("f:",$longopts,$rest_index);
         if(array_key_exists('show_sauce',$opt)) {$HTML_show_sauce=strcmp($opt['show_sauce'],'false')==0?false:true;}
@@ -68,6 +70,7 @@ if (defined('STDIN')) {
 	if(array_key_exists('preserve_escape',$opt)){ $preserve_escape=strcmp($opt['preserve_escape'],'false')==0?false:true; }
 	if(array_key_exists('show_null',$opt)){ $HTML_show_null=$opt['show_null']; }
 	if(array_key_exists('nbsp',$opt)){ $HTML_use_nbsp=strcmp($opt['nbsp'],'false')==0?false:true; }
+	if(array_key_exists('br',$opt)){ $HTML_use_br=strcmp($opt['br'],'false')==0?false:true; }
         if(array_key_exists('f',$opt)) {
                 $fname=$opt['f'];
         } else {
@@ -80,53 +83,43 @@ if (defined('STDIN')) {
 	echo "          show SAUCE meta data\n";
 	echo "   --format='HTML format of output'\n";
 	echo "	 default: '<span style=\"color:%foreground%; background:%background%\">%content%</span>'\n";
-	echo "   --header=\"true |OR| false\"\n";
-	echo "          (default: true)\n";
+	echo "   --header='true |OR| false (default: true)\n";
 	echo "          output html headers, etc.\n";
-	echo "   --background=\"html color/code\" \n";
-	echo "          (default: \"black\")\n";
+	echo "   --background='html color/code' (default: \"black\")\n";
 	echo "          for html display area background\n";
-	echo "          eg. 'black', 'red', '#B8B800', etc.\n"; 
-	echo "   --background=\"html color/code\" \n";
-	echo "          (default: \"white\")\n";
+	echo "   --foreground='html color/code' (default: \"white\")\n";
 	echo "          for html display area foreground\n";
 	echo "          eg. 'white', 'red', '#B8B800', etc.\n"; 
-	echo "   --cps437_to_utf8=\"true |OR| false\"\n";
-	echo "          (default: true)\n";
-	echo "          transcode code page 437 to Unicode utf8 format\n";
-	echo "   --broken_pipe=\"true |OR| false\"\n";
-	echo "          (default: true)\n";
-	echo "          transcode '|' to classic broken pipe\n";
-	echo "   --preserve_crlftab=\"true |OR| false\"\n";
-	echo "          (default: true)\n";
-	echo "          keep carriage return,linefeed,tab - no transcode\n";
-	echo "   --preserve_escape=\"true |OR| false\"\n";
-	echo "          (default: true)\n";
-	echo "          keep escape character - no transcode\n";
-        echo "   --show_null=\"character to show\"\n";
-	echo "          (default: ' ')\n";
-	echo "          eg. '\x0', '&#00;', ' ', '&nbsp;', etc.\n";
-        echo "   --nbsp=\"true |OR| false\"\n";
-	echo "          (default: false)\n";
+        echo "   --nbsp='true |OR| false' (default: false)\n";
 	echo "          replace space ' ' with &nbsp;\n";
-        echo "   --use5m==\"auto |OR| true |OR| false\" default: auto)\n";
+        echo "   --br='true |OR| false' (default: false)\n";
+	echo "          use <br /> tag for new line\n";
+        echo "   --show_null='character to show' (default: ' ')\n";
+	echo "          eg. '\\x0', '&#00;', ' ', '&nbsp;', etc.\n";
+	echo "   --cps437_to_utf8='true |OR| false' (default: true)\n";
+	echo "          transcode code page 437 to Unicode utf8 format\n";
+	echo "   --broken_pipe='true |OR| false' (default: true)\n";
+	echo "          transcode '|' to classic broken pipe\n";
+	echo "   --preserve_crlftab='true |OR| false' (default: true)\n";
+	echo "          keep carriage return,linefeed,tab - no transcode\n";
+	echo "   --preserve_escape='true |OR| false' (default: true)\n";
+	echo "          keep escape character - no transcode\n";
+        echo "   --use5m=='auto |OR| true |OR| false' default: auto)\n";
         echo "          use bright 5m background (iCE colors)\n";
-        echo "   --use7m==\"true |OR| false\" default: true)\n";
+        echo "   --use7m=='true |OR| false' default: true)\n";
         echo "          do color inverse (inline 7m is experimental) \n";
-	echo "   --width=\"auto |OR| none |OR|i width in number\"\n";
+	echo "   --width='auto |OR| none |OR| width in number'\n";
 	echo "          (default: auto)\n";
 	echo "          add CRLF at certain width\n";
-	echo "          auto   - use width from SAUCE if available, or none\n";
-	echo "          number - use this width\n";
-	echo "          none   - do not add any CRLF\n";
-	echo "          eg. --width=\"auto\", --width=108, --width=21, etc.\n";
-	echo "   --bg=\"color code\" \n";
-	echo "          (default: \"40\" - black)\n";
-	echo "          inline attribute \"color code\" as default ANSI background\n";
+	echo "          'auto' - use SAUCE if available, or none\n";
+	echo "          'a number' - use this width\n";
+	echo "          'none'     - do not add any CRLF\n";
+	echo "          eg. --width='auto', --width='108', --width='21', etc.\n";
+	echo "   --bg='color code' (default: '40' - black)\n";
+	echo "          use this as default ANSI background\n";
 	echo "          eg. 40, 41, 5;42, etc.\n"; 
-	echo "   --fg=\"color code\" \n";
-	echo "          (default: \"37\" - grey)\n";
-	echo "          inline attribute \"color code\" as default ANSI foreground\n";
+	echo "   --fg='color code' (default: '37' - grey)\n";
+	echo "          use this as default ANSI foreground\n";
 	echo "          eg. 30, 31, 1;32, etc.\n"; 
 	echo "\n";
 	echo "(c) Ram Narula <ram@pluslab.com> github @rambkk\n";
@@ -147,6 +140,7 @@ $option=[
 	'HTML_foreground'	=> $HTML_foreground,
 	'HTML_header'		=> $HTML_header,
 	'HTML_use_nbsp'		=> $HTML_use_nbsp,
+	'HTML_use_br'		=> $HTML_use_br,
 	'HTML_show_null'	=> $HTML_show_null,
 	'width'		=> $width, // ie. 'auto', 'none', or a number 108,21,80, etc.
 	'use5m'		=> $use5m,

@@ -21,6 +21,7 @@ function param($option,$default=[
         'HTML_background'    => 'black',
         'HTML_foreground'    => 'white',
 	'HTML_use_nbsp' => false,
+	'HTML_use_br' => false,
 	'HTML_show_null' => ' ',
         'width'         => 'auto',
         'use5m'         => true,
@@ -203,12 +204,14 @@ function struct_TO_html($input,$option) {
 $HTML_format=$option['HTML_format'];
 $HTML_show_null=stripcslashes($option['HTML_show_null']);
 $HTML_use_nbsp=$option['HTML_use_nbsp'];
+$HTML_use_br=$option['HTML_use_br'];
 
 $replace_option=false;
 $replace_option_from=[];
 $replace_option_to=[];
 if($HTML_show_null) { $replace_option_from[]=chr(0); $replace_option_to[]=$HTML_show_null;  $replace_option=true;}
 if($HTML_use_nbsp)  { $replace_option_from[]=' ';    $replace_option_to[]='&nbsp;'; $replace_option=true;}
+if($HTML_use_br)  { $replace_option_from[]="\r\n";    $replace_option_to[]="<br />\r\n"; $replace_option=true;}
 
 $color=array();
 $color[30]="black";
