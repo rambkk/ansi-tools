@@ -222,14 +222,14 @@ $color[34]="darkblue";
 $color[35]="darkmagenta";
 $color[36]="darkcyan";
 $color[37]="gray";
-$color[130]="dimgray";
-$color[131]="red";
-$color[132]="green";
-$color[133]="yellow";
-$color[134]="blue";
-$color[135]="magenta";
-$color[136]="cyan";
-$color[137]="white";
+$color[90]="dimgray";
+$color[91]="red";
+$color[92]="green";
+$color[93]="yellow";
+$color[94]="blue";
+$color[95]="magenta";
+$color[96]="cyan";
+$color[97]="white";
 $color[40]="black";
 $color[41]="darkred";
 $color[42]="darkgreen";
@@ -238,22 +238,26 @@ $color[44]="darkblue";
 $color[45]="darkmagenta";
 $color[46]="darkcyan";
 $color[47]="gray";
-$color[140]="dimgray";
-$color[141]="red";
-$color[142]="green";
-$color[143]="yellow";
-$color[144]="blue";
-$color[145]="magenta";
-$color[146]="cyan";
-$color[147]="white";
+$color[100]="dimgray";
+$color[101]="red";
+$color[102]="green";
+$color[103]="yellow";
+$color[104]="blue";
+$color[105]="magenta";
+$color[106]="cyan";
+$color[107]="white";
 
 $html='';
 foreach ($input['ANSIDATA'] as $block) {
 	if(array_key_exists('content',$block)) {
 		if($replace_option) {$block['content']=str_replace($replace_option_from,$replace_option_to,$block['content']);}
 		if(array_key_exists('foreground',$block) && array_key_exists('background',$block)) {
-			$htmlfg=$color[intval(preg_replace("/1;(3[0-9])/",'1'.'${1}',$block['foreground']))];
-			$htmlbg=$color[intval(preg_replace("/5;(4[0-9])/",'1'.'${1}',$block['background']))];
+			//$htmlfg=$color[intval(preg_replace("/1;(3[0-9])/",'1'.'${1}',$block['foreground']))];
+			//if($htmlfg>100) $htmlfg-=60;
+			$htmlfg=intval(preg_replace("/1;(3[0-9])/",'1'.'${1}',$block['foreground']));
+			$htmlfg=$color[$htmlfg>100?$htmlfg-40:$htmlfg];
+			$htmlbg=intval(preg_replace("/5;(4[0-9])/",'1'.'${1}',$block['background']));
+			$htmlbg=$color[$htmlbg>100?$htmlbg-40:$htmlbg];
 			$replace_from=['%foreground%',	'%background%',	'%content%'];
 			$replace_to=  [$htmlfg,		$htmlbg,	$block['content']];
 			$html.=str_replace($replace_from,$replace_to,$HTML_format);
@@ -379,14 +383,14 @@ $color[34]="34";
 $color[35]="35";
 $color[36]="36";
 $color[37]="37";
-$color[130]="1;30";
-$color[131]="1;31";
-$color[132]="1;32";
-$color[133]="1;33";
-$color[134]="1;34";
-$color[135]="1;35";
-$color[136]="1;36";
-$color[137]="1;37";
+$color[90]="1;30";
+$color[91]="1;31";
+$color[92]="1;32";
+$color[93]="1;33";
+$color[94]="1;34";
+$color[95]="1;35";
+$color[96]="1;36";
+$color[97]="1;37";
 $color[40]="40";
 $color[41]="41";
 $color[42]="42";
@@ -395,19 +399,19 @@ $color[44]="44";
 $color[45]="45";
 $color[46]="46";
 $color[47]="47";
-$color[140]="5;40";
-$color[141]="5;41";
-$color[142]="5;42";
-$color[143]="5;43";
-$color[144]="5;44";
-$color[145]="5;45";
-$color[146]="5;46";
-$color[147]="5;47";
+$color[100]="5;40";
+$color[101]="5;41";
+$color[102]="5;42";
+$color[103]="5;43";
+$color[104]="5;44";
+$color[105]="5;45";
+$color[106]="5;46";
+$color[107]="5;47";
 
 
 
-$sbold=preg_match('/(^1;)|(;1$)|(;1;)/',$ANSIfg)?100:0;
-$sbrightbg=preg_match('/(^5;)|(;5$)|(;5;)/',$ANSIbg)?100:0;
+$sbold=preg_match('/(^1;)|(;1$)|(;1;)/',$ANSIfg)?60:0;
+$sbrightbg=preg_match('/(^5;)|(;5$)|(;5;)/',$ANSIbg)?60:0;
 
 preg_match_all('/(^|;)(3[0-7])(;|$)/',$ANSIfg,$matches);
 $sfg=end($matches[2]);
@@ -430,11 +434,11 @@ $det=array();
 			$add0m='';
 			foreach($block['m'] as $attr) {
 				if($attr == 0) { $bold=$sbold; $brightbg=$sbrightbg; $fg=$sfg; $bg=$sbg; $add0m='0;';}
-				if($attr == 1) { $bold=100; }
+				if($attr == 1) { $bold=60; }
 				if($attr == 2) { $bold=0; }
 				if($attr >= 30 && $attr<=37) { $fg=$attr; }
 				if($attr >= 40 && $attr<=47) { $bg=$attr; }
-				if($attr==5) { $brightbg=100; }
+				if($attr==5) { $brightbg=60; }
 				if($use7m && $attr==7) {	$tmp=$bold; $bold=$brightbg; $brightbg=$tmp;
 								$tmp=$fg+10; $fg=$bg-10; $bg=$tmp;
 				}
