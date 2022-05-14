@@ -58,7 +58,7 @@ if (defined('STDIN')) {
         echo "Require: -f [filename.ans |OR| '-' for STDIN]  \n";
 	echo "\n";
         echo " Option:\n";
-	echo "   --pretty_print=\"true |OR| false\" (default: true)\n";
+	echo "   --pretty_print='true |OR| false' (default: true)\n";
 	echo "          output JSON data in pretty format\n";
 	echo "   --cps437_to_utf8='true |OR| false' (default: true)\n";
 	echo "          transcode code page 437 to Unicode utf8 format\n";

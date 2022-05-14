@@ -78,12 +78,12 @@ if (defined('STDIN')) {
         echo "Require: -f [filename.ans |OR| '-' for STDIN]  \n";
 	echo "\n";
         echo " Option:\n";
-        echo "   --show_sauce=\"true |OR| false\"\n";
+        echo "   --show_sauce='true |OR| false'\n";
 	echo "          (default: true)\n";
 	echo "          show SAUCE meta data\n";
 	echo "   --format='HTML format of output'\n";
 	echo "	 default: '<span style=\"color:%foreground%; background:%background%\">%content%</span>'\n";
-	echo "   --header='true |OR| false (default: true)\n";
+	echo "   --header='true |OR| false' (default: true)\n";
 	echo "          output html headers, etc.\n";
 	echo "   --background='html color/code' (default: \"black\")\n";
 	echo "          for html display area background\n";
