@@ -3,7 +3,7 @@ Application to convert ANSI art (CP437) ANSI data file to HTML web page file
 
 (CP437 - Code page 437 character set)
 
-Simple example (to remove SAUCE info check the ansi_to_html_simple.php, options below):
+Simple examples (to remove SAUCE info check the ansi_to_html_simple.php, options below):
 ```php
 <?php
 require_once("lib-php/ansi_lib.php");
@@ -12,6 +12,11 @@ $input=file_get_contents('CP437.ANS');
 echo ansi_TO_HTML($input);
 ?>
 ```
+command line example
+```php
+php ansi_to_html.php -f CP437.ANS > CP437.html
+```
+
 
 - works with ANSI data normal width and fixed width (with or without new line characters)
 - does not work with attributes other than 0,1,5,7,30-37,40-47 m
