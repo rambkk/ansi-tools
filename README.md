@@ -62,15 +62,26 @@ The process of conversion is quite simple by matching each byte with correspondi
 ### Note:
 Few characters should 'generally' be preserved from trancoding:
   * \*(There are options to force convert these to Unicode utf8 symbols)
+  * \*( --preserve_crlftab='false' --preserve_escape='false')
   - Carriage Return (0x0A)
   - Line feed (0x0D)
   - Horizontal Tab (0x09) 
-  - Escape character (0x1B - this used at beginning of ANSI escape sequence)
+  - Escape character (0x1B - can transcoded if not part of escape sequence)
 
 Special
-  - classic 'broken-pipe' ¦ is used instead of 'pipe' | (or use the non broken pipe)
-  - HTML option: render null character (\x0) as specified character eg. ``' ' or '&#00;' or '&nbsp;' ...``
+  - classic 'broken-pipe' ¦ is used instead of 'pipe' | (or use --broken_pipe='false' )
+  - HTML option: render null character (\x0) as specified character
+    ```bash
+    --show_null=' ' --show_null='&#00;' --show_null='&nbsp;'
+    ```
   - HTML option: render space character ' ' as ``&nbsp;``
+    ```bash
+    --nbsp='true'
+    ```
+  - HTML option: put ```<br /> ``` for new line
+    ```bash
+    --br='true'
+    ```
 
 
 
@@ -84,15 +95,25 @@ You must have PHP installed
 
 ## Examples - command-line (filename.ANS uses cp437) 
 * Generate HTML from CP437.ANS without showing SAUCE data\
-```php ansi_to_html.php -f CP437.ANS --show_sauce=false > CP437.html```
-* Generate JSON outout from CP437.ANS \
-```php ansi_to_json.php -f CP437.ANS > CP437.json```
-* Generate Unicode utf8 from  CP437.ANS\
-```php cp437_to_utf8 -f CP437.ANS > CP437_utf8.ANS```
-* for STDIN instead of file use ```-f -``` \
-```cat CP437_1.ANS | php ansi_TO_HTML.php -f - > CP437.html ```
-* Little bit more fancy \
-```php ansi_to_html.php -f CP437.ANS --show_sauce=true --preserve_crlftab=false --preserve_escape=false --show_null=' ' > CP437.html```
+```bash
+php ansi_to_html.php -f CP437.ANS --show_sauce='false' > CP437.html
+```
+* Generate JSON outout from CP437.ANS
+```bash
+php ansi_to_json.php -f CP437.ANS > CP437.json
+```
+* Generate Unicode utf8 from  CP437.ANS
+```bash
+php cp437_to_utf8 -f CP437.ANS > CP437_utf8.ANS
+```
+* for STDIN instead of file use ```-f -```
+```bash
+cat CP437_1.ANS | php ansi_TO_HTML.php -f - > CP437.html
+```
+* Little bit more fancy
+```bash
+php ansi_to_html.php -f CP437.ANS --show_sauce='true' --preserve_crlftab='false' --preserve_escape='false' --show_null=' ' > CP437.html
+```
  
 # Options with example
 Here is the list of default options:
@@ -105,6 +126,7 @@ $option=[
         'HTML_background'    => 'black',
         'HTML_foreground'    => 'white',
         'HTML_use_nbsp'      => false,
+        'HTML_use_br'        => false,	
         'HTML_show_null'     => ' ',
         'width'         => 'auto',
         'use5m'         => true,
@@ -142,12 +164,12 @@ php ansi_to_html.php
 Require: -f [filename.ans |OR| '-' for STDIN]
 
  Option:
-   --show_sauce="true |OR| false"
+   --show_sauce='true |OR| false'
           (default: true)
           show SAUCE meta data
    --format='HTML format of output'
          default: '<span style="color:%foreground%; background:%background%">%content%</span>'
-   --header='true |OR| false (default: true)
+   --header='true |OR| false' (default: true)
           output html headers, etc.
    --background='html color/code' (default: "black")
           for html display area background
@@ -195,7 +217,7 @@ php ansi_to_json.php
 Require: -f [filename.ans |OR| '-' for STDIN]
 
  Option:
-   --pretty_print="true |OR| false" (default: true)
+   --pretty_print='true |OR| false' (default: true)
           output JSON data in pretty format
    --cps437_to_utf8='true |OR| false' (default: true)
           transcode code page 437 to Unicode utf8 format
