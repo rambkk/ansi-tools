@@ -86,7 +86,7 @@ if (defined('STDIN')) {
 	echo "   --header='true |OR| false' (default: true)\n";
 	echo "          output html headers, etc.\n";
 	echo "   --background='html color/code' (default: \"black\")\n";
-	echo "          for html display area background\n";
+	echo "          for html display area background, can use 'transparent'\n";
 	echo "   --foreground='html color/code' (default: \"white\")\n";
 	echo "          for html display area foreground\n";
 	echo "          eg. 'white', 'red', '#B8B800', etc.\n"; 

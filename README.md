@@ -120,7 +120,7 @@ cat CP437_1.ANS | php ansi_TO_HTML.php -f - > CP437.html
 ```
 * Little bit more fancy
 ```bash
-php ansi_to_html.php -f CP437.ANS --show_sauce='true' --preserve_crlftab='false' --preserve_escape='false' --show_null=' ' > CP437.html
+php ansi_to_html.php -f CP437.ANS --show_sauce='true' --preserve_crlftab='false' --preserve_escape='false' --show_null=' ' --background='transparent' --foreground='darkblue' > CP437.html
 ```
  
 # Options with example
@@ -180,7 +180,7 @@ Require: -f [filename.ans |OR| '-' for STDIN]
    --header='true |OR| false' (default: true)
           output html headers, etc.
    --background='html color/code' (default: "black")
-          for html display area background
+          for html display area background, can use 'transparent'
    --foreground='html color/code' (default: "white")
           for html display area foreground
           eg. 'white', 'red', '#B8B800', etc.
