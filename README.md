@@ -35,7 +35,8 @@ This font along with other cp485 fonts is available from www.int10h.org
        - output HTML color code with content
        - output SAUCE information table (optional)
    - To generate JSON output 
-       - convert ANSI array content backslash '\' and special characters to hex format \xNN
+       - convert ANSI array content backslash '\\' and special characters to hex format \xNN \
+       (The conversion is also done on each byte for the multibyte Unicode utf8 characters)
        - encode converted ANSI array into JSON format
 
 
@@ -98,7 +99,6 @@ Here is the list of default options:
 ```php
 <?php
 $option=[
-        'SAUCEhide'     => true,
         'HTML_format'        => '<span style="color:%foreground%; background:%background%">%content%</span>',
         'HTML_show_sauce'    => true,
         'HTML_header'	     => true,
