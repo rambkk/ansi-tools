@@ -106,7 +106,7 @@ $option=[
         'cp437_to_utf8' => $cp437_to_utf8,
         'broken_pipe' 	=> $broken_pipe,
 	'preserve_crlftab'	=> $preserve_crlftab,
-	'preserve_ecape'	=> $preserve_escape,
+	'preserve_escape'	=> $preserve_escape,
 	'JSON_pretty_print'	=> $JSON_pretty_print,
 ];
 

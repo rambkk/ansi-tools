@@ -42,7 +42,7 @@ function param($option,$default=[
 }
 
 
-function ansi_INIT($input,$option)
+function ansi_INIT($input_ansi_data,$option)
 {
 
 $cur=param($option);
@@ -62,10 +62,11 @@ $cp437_to_utf8_option=[
 
 
 require_once(dirname(__FILE__).'/ansi_SAUCE_lib.php');
-$SAUCE=sauce_structure($input);
-if($SAUCEhide==true && $SAUCE['SAUCEbytes']>0)$input=substr($input,0,-$SAUCE['SAUCEbytes']);
+$SAUCE=sauce_structure($input_ansi_data);
+$input_ansi_data_actual=($SAUCEhide==true && $SAUCE['SAUCEbytes']>0)?substr($input_ansi_data,0,-$SAUCE['SAUCEbytes']):$input_ansi_data;
+//if($SAUCEhide==true && $SAUCE['SAUCEbytes']>0)$input_ansi_data_actual=substr($input_ansi_data,0,-$SAUCE['SAUCEbytes']);
 
-$original_input=ansi_TO_structure($input);
+$original_input=ansi_TO_structure($input_ansi_data_actual);
 $input=$original_input;
 
 $use5m=brightbgParam($use5m,$SAUCE);
@@ -93,11 +94,11 @@ function brightbgParam($use5m,$SAUCE) {
 	} else return true;
 }
 
-function ansi_TO_JSON($input,$option=[])
+function ansi_TO_JSON($input_ansi_data,$option=[])
 {
 
 $cur=param($option);
-$input=ansi_INIT($input,$cur);
+$input=ansi_INIT($input_ansi_data,$cur);
 $input['ANSIDATA_ORIGINAL']=struct_ascii_TO_hex($input['ANSIDATA_ORIGINAL']);
 $input['ANSIDATA']=struct_ascii_TO_hex($input['ANSIDATA']);
 
@@ -132,10 +133,10 @@ return $det;
 //}
 //
 
-function ansi_TO_HTML($input,$option=[]) 
+function ansi_TO_HTML($input_ansi_data,$option=[]) 
 {
 $cur=param($option);
-$input=ansi_INIT($input,$cur);
+$input=ansi_INIT($input_ansi_data,$cur);
 
 
 $HTML_background=$cur['HTML_background'];
@@ -300,28 +301,6 @@ function widthParam($width,$SAUCE) {
 	}
 
 }
-
-
-function getSAUCE($input) {
-
-if(strcmp('SAUCE',substr($input, -128,5))==0) { $havesauce=true; } else { 
-	return ['saucebytes' => 0, 'width' => 0];
-}
-
-if($havesauce) {
-	$saucelength=128+1;
-	$saucewidth=ord(substr($input, -32,1));
-	$commentchk=ord(substr($input,-24,1));
-	$saucelength+=64*$commentchk+strlen("COMNT");
-
-	return 	[
-		'width' => $saucewidth,
-		'saucebytes' => $saucelength
-		];
-}
-
-}
-
 
 
 
